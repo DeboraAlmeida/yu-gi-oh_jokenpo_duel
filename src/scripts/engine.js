@@ -68,23 +68,33 @@ const updateScore = async () => {
   state.score.scoreBox.innerText = `Win: ${state.score.playerScore} | Lose: ${state.score.computerScore}`
 }
 
-const resetDuel = async () => {
+const resetCardDetails = () => {
+  state.cardSprites.name.innerText = 'Select'
+  state.cardSprites.type.innerText = 'Your card'
   state.cardSprites.avatar.src = ''
-  state.actions.button.style.display = 'none'
-  state.fieldCards.player.style.display = 'none'
+}
+
+const showCardFieldsImages = (value) => {
+  if (value) {
+    state.fieldCards.player.style.display = 'block'
+    state.fieldCards.computer.style.display = 'block'
+  } else { 
+    state.fieldCards.player.style.display = 'none'
   state.fieldCards.computer.style.display = 'none'
+  }
+}
 
-  init()
-
+const drawCardsInFields = (idCard, computerCardId) => {
+  state.fieldCards.player.src = cardData[idCard].img
+  state.fieldCards.computer.src = cardData[computerCardId].img
 }
 
 const setCardsField = async (idCard) => {
   await removeAllCardsImages()
   let computerCardId = await getRandomCardId()
-  state.fieldCards.player.src = cardData[idCard].img
-  state.fieldCards.computer.src = cardData[computerCardId].img
-  state.fieldCards.player.style.display = 'block'
-  state.fieldCards.computer.style.display = 'block'
+  drawCardsInFields(idCard, computerCardId)
+  showCardFieldsImages(true)
+  resetCardDetails()
 
   let duelResuts = await checkDuelResults(idCard, computerCardId)
 
@@ -126,8 +136,19 @@ const drawCards = async (cardNumber, fieldSide) => {
 }
 
 const init = () => {
+  showCardFieldsImages(false)
   drawCards(5, playersSide.player1)
   drawCards(5, playersSide.computer)
+
+  const bgm = document.getElementById('bgm')
+  bgm.play()
 }
 
 init()
+
+state.actions.button.addEventListener('click', () => {
+  state.cardSprites.avatar.src = ''
+  state.actions.button.style.display = 'none'
+  showCardFieldsImages(false)
+  init()
+})
