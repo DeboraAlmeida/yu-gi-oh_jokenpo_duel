@@ -72,9 +72,9 @@
 }
 
 #player-field-card,
-#computer-card-infield {
-  width: 7.8rem;
-  height: 11.25rem;
+#computer-field-card {
+  width: 8rem;
+  height: 11.5rem;
 }
 
 .divisor {
@@ -105,7 +105,7 @@
 }
 
 .versus-bottom {
-  margin-top: 1rem;
+  margin-top: 2.5rem;
 }
 
 #next-duel {

@@ -26,6 +26,72 @@ const getRandomCardId = async () => {
   return Math.floor(Math.random() * cardData.length)
 }
 
+const removeAllCardsImages = async () => {
+  function removeCards(cardBox) {
+    let cards = document.getElementById(`${cardBox}`)
+    let imgElements = cards.querySelectorAll('img')
+    imgElements.forEach(img => img.remove())
+  }
+  
+  removeCards(playersSide.computer)
+  removeCards(playersSide.player1)
+}
+
+const playAudio = async (status) => {
+  const audio = new Audio(`./src/assets/audios/${status}.wav`)
+  audio.play()
+}
+
+const checkDuelResults = async (playerCardId, computerCardId) => {
+  let duelResults = "Draw"
+  let playerCard = cardData[playerCardId]
+
+  if(playerCard.WinOf.includes(computerCardId)) {
+    duelResults = 'You win!'
+    await playAudio('win')
+    state.score.playerScore++
+  } else if (playerCard.LoseOf.includes(computerCardId)) {
+    duelResults = 'You lose!'
+    await playAudio('lose')
+    state.score.computerScore++
+  }
+
+  return duelResults
+}
+
+const drawButton = async (text) => {
+  state.actions.button.innerText = text
+  state.actions.button.style.display = 'block'
+}
+
+const updateScore = async () => {
+  state.score.scoreBox.innerText = `Win: ${state.score.playerScore} | Lose: ${state.score.computerScore}`
+}
+
+const resetDuel = async () => {
+  state.cardSprites.avatar.src = ''
+  state.actions.button.style.display = 'none'
+  state.fieldCards.player.style.display = 'none'
+  state.fieldCards.computer.style.display = 'none'
+
+  init()
+
+}
+
+const setCardsField = async (idCard) => {
+  await removeAllCardsImages()
+  let computerCardId = await getRandomCardId()
+  state.fieldCards.player.src = cardData[idCard].img
+  state.fieldCards.computer.src = cardData[computerCardId].img
+  state.fieldCards.player.style.display = 'block'
+  state.fieldCards.computer.style.display = 'block'
+
+  let duelResuts = await checkDuelResults(idCard, computerCardId)
+
+  await updateScore()
+  await drawButton(duelResuts)
+}
+
 const drawSelectedCard = async (idCard) => {
   state.cardSprites.avatar.src = cardData[idCard].img
   state.cardSprites.name.innerText = cardData[idCard].name

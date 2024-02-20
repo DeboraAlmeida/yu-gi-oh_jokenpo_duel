@@ -6,7 +6,7 @@
       "type": "Paper",
       "img": "./src/assets/icons/dragon.png",
       "WinOf": [1],
-      "LoseOff": [2]
+      "LoseOf": [2]
     },
     {
       "id": 1,
@@ -14,7 +14,7 @@
       "type": "Rock",
       "img": "./src/assets/icons/magician.png",
       "WinOf": [2],
-      "LoseOff": [0]
+      "LoseOf": [0]
     },
     {
       "id": 2,
@@ -22,7 +22,7 @@
       "type": "Scissors",
       "img": "./src/assets/icons/exodia.png",
       "WinOf": [0],
-      "LoseOff": [1]
+      "LoseOf": [1]
     }
   ],
   "playersSides": {
