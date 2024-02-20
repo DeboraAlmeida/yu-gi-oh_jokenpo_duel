@@ -126,3 +126,13 @@
   /* border: 1px solid #fff; */
   border-radius: .5rem;
 }
+
+.card-player, .card {
+  height: 6.25rem;
+  transition: transform 0.2s;
+}
+
+.card-player:hover {
+  transform: scale(1.2);
+  cursor: pointer;
+}
